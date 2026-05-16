@@ -6,7 +6,7 @@ public:
     vector<vector<int>> permute(vector<int>& nums) {
         // n! in total
         // Recursion: permuting 1 to k (k!) is equivalent to permuting 1 to k-1 ((k-1)!), 
-        //            then insert k to all posible positions
+        //            then insert k to all possible positions
         // We need to write a interation version
         vector<vector<int>> ans{{nums[0]}};
         ans.reserve(factorial(nums.size())); // important!
