@@ -1,3 +1,4 @@
+#include <queue>
 #include <vector>
 
 using namespace std;
@@ -21,5 +22,30 @@ public:
       return true;
 
     return false;
+  }
+
+  bool canReachBFS(vector<int>& arr, int start) {
+      // BFS
+      queue<int> que;
+      vector<bool> isinque(arr.size(), false);
+
+      que.push(start);
+      isinque[start] = true;
+      while (!que.empty()) {
+          int cur = que.front();
+          que.pop();
+
+          if (arr[cur] == 0) return true;
+          if (cur + arr[cur] < arr.size() && !isinque[cur + arr[cur]]) {
+              que.push(cur + arr[cur]);
+              isinque[cur + arr[cur]] = true;
+          }
+          if (cur - arr[cur] >= 0 && !isinque[cur - arr[cur]]) {
+              que.push(cur - arr[cur]);
+              isinque[cur - arr[cur]] = true;
+          }
+      }
+
+      return false;
   }
 };
