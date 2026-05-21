@@ -19,6 +19,7 @@ public:
     std::vector<int> occ(n, -1); // occupied cols: 0 to n-1
     std::vector<int> rpc(n, -1); // row + col: 0 to 2*(n-1)
     std::vector<int> rmc(n, -n); // row - col: -(n-1) to (n-1)
+    occ.reserve(n); rpc.reserve(n); rmc.reserve(n);
 
     placeQueen(0, board, occ, rpc, rmc);
     return ans;
