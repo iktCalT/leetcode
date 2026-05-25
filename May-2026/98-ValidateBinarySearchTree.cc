@@ -21,6 +21,37 @@ struct TreeNode {
       : val(x), left(left), right(right) {}
 };
 
+class Solution {
+public:
+  bool isValidBST(TreeNode *root) {
+    // DFS
+    // I need 2 functions, one is validateLeft, setting a upper bound
+    // the other is validateRight, setting a lower bound
+
+    if (!validateSub(root->left, root, nullptr))
+      return false;
+    if (!validateSub(root->right, nullptr, root))
+      return false;
+    return true;
+  }
+
+private:
+  // This test case hurts me [-2147483648,null,2147483647]
+  bool validateSub(TreeNode *subroot, TreeNode *ub, TreeNode *lb) { // ub: upper bound
+    if (subroot == nullptr)
+      return true;
+    if (ub && subroot->val >= ub->val)
+      return false;
+    if (lb && subroot->val <= lb->val)
+      return false;
+    if (!validateSub(subroot->left, subroot, lb))
+      return false;
+    if (!validateSub(subroot->right, ub, subroot))
+      return false;
+    return true;
+  }
+};
+
 class INF {
 public:
   bool positive;
@@ -31,7 +62,7 @@ public:
   friend bool operator<=(INF& rhs, int) { return !rhs.positive; }
 };
 
-class Solution {
+class SolutionAnother {
 public:
   bool isValidBST(TreeNode *root) {
     // DFS
