@@ -10,6 +10,7 @@
  * };
  */
 
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
@@ -23,7 +24,32 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-class Solution {
+class Solution { // faster (0ms) because findInorderSubroot won't be called again and again
+public:
+  TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    unordered_map<int, int> quickFindIn;
+    for (int i = 0; i < preorder.size(); ++i) {
+      quickFindIn.insert({inorder[i], i});
+    }
+
+    return buildSubtree(0, 0, preorder.size(), preorder, inorder, quickFindIn);
+  }
+
+private:
+  TreeNode* buildSubtree(int pstart, int istart, int size,
+      vector<int>& preorder, vector<int>& inorder, unordered_map<int, int>& quickFindIn) {
+    if (size <= 0) return nullptr;
+    TreeNode* subroot = new TreeNode(preorder[pstart]);
+    if (size == 1) return subroot;
+    
+    int dist = quickFindIn[preorder[pstart]] - istart;
+    subroot->left = buildSubtree(pstart + 1, istart, dist, preorder, inorder, quickFindIn);
+    subroot->right = buildSubtree(pstart + 1 + dist, istart + 1 + dist, size - dist - 1, preorder, inorder, quickFindIn);
+    return subroot;
+  }
+};
+
+class Solution2 { // same as above
 public:
   TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
     return buildSubtree(0, 0, preorder.size(), preorder, inorder);
