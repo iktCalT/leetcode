@@ -3,12 +3,75 @@
 #include <functional>
 #include <iterator>
 #include <map>
+#include <set>
 #include <tuple>
 #include <vector>
 
 using namespace std;
 
-class Solution { // Runtime 1251 ms Beats 5.94%; Memory 335.81 MB Beats 77.23%
+class Solution { // Runtime 515 ms Beats 47.66%; Memory 396.31 MB Beats 5.61%
+public:
+  vector<bool> getResults(vector<vector<int>>& queries) {
+    vector<bool> ans;
+    // key: gap, value: starting positions
+    // gaps's key is sorted in descending order, 
+    // while its values are vectors sorted in ascending order (set)
+    map<int, set<int>, greater<int>> gaps{{INT_MAX, {0}}};
+    // position of obstacles (sorted)
+    set<int> obs{0, INT_MAX};
+
+    for (const auto& query : queries) {
+      if (query[0] == 1) {
+        auto [gap, prev, prev_gap] = placeObstacle(query[1], obs);
+        removeGap(prev, prev_gap + gap, gaps);
+        insertGap(prev, prev_gap, gaps);
+        insertGap(query[1], gap, gaps);
+      } else {
+        ans.push_back(placeBlock(query[1], query[2], gaps));
+      }
+    }
+    return ans;
+  }
+
+private:
+  tuple<int, int, int> placeObstacle(int pos, set<int>& obs) {
+    // first return value: gap of inserted position
+    // second return value: previous position
+    // third return value: new gap of previous position
+    // obs is sorted
+    auto [it, _] = obs.insert(pos);
+
+    return {*next(it) - *it, *prev(it), *it - *prev(it)};
+  }
+
+  void insertGap(int pos, int gap, map<int, set<int>, greater<int>>& gaps) {
+    if (gaps.find(gap) != gaps.end()) {
+      gaps[gap].insert(pos);
+    } else {
+      gaps.insert({gap, {pos}});
+    }
+  }
+
+  void removeGap(int pos, int old_gap, map<int, set<int>, greater<int>>& gaps) {
+    // old_gap must be in gaps. gaps.find(gap) != gaps.end() is unnecessary
+    if (gaps[old_gap].size() == 1) {
+      gaps.erase(old_gap);
+      return;
+    }
+    gaps[old_gap].erase(pos);
+  }
+
+  bool placeBlock(int end, int size, const map<int, set<int>, greater<int>>& gaps) {
+    for (auto cit = gaps.cbegin(); cit != gaps.cend(); ++cit) {
+      if (cit->first < size) break;
+      if (*(cit->second.begin()) + size <= end) return true;
+    }
+
+    return false;
+  }
+};
+
+class SolutionSlow { // Runtime 1251 ms Beats 5.94%; Memory 335.81 MB Beats 77.23%
 public:
   vector<bool> getResults(vector<vector<int>>& queries) {
     vector<bool> ans;
@@ -89,7 +152,7 @@ private:
   }
 };
 
-class SolutionSlow {
+class SolutionSlow2 {
 public:
   vector<bool> getResults(vector<vector<int>>& queries) {
     // Positions of obstacles
@@ -130,7 +193,7 @@ private:
   }
 };
 
-class SolutionSlow2 {
+class SolutionSlow3 {
 public:
   vector<bool> getResults(vector<vector<int>>& queries) {
     // Positions of obstacles, and distance to next obstacle
