@@ -1,3 +1,8 @@
+#include <cstdlib>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
   vector<int> leftRightDifference(vector<int>& nums) {

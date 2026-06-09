@@ -1,3 +1,7 @@
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
   int totalWaviness(int num1, int num2) {
