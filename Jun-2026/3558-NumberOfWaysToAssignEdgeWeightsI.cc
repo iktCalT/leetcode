@@ -8,13 +8,13 @@ using namespace std;
 
 class Solution {
 public:
-  int assignEdgeWeights(vector<vector<int>>& edges) {
+  int assignEdgeWeights(vector<vector<int>> &edges) {
     // Notice that the first edge could not be connected to root (1)
-    // and upper node could be the second element. 
+    // and upper node could be the second element.
     // e.g. [[4,3],[3,5],[2,1],[3,1]]
     // 1. find maximum depth
     // 2. calculate
-    
+
     // Use unordered_map to record the neighbors of each node
     unordered_map<int, vector<int>> map;
     for (vector<int> edge : edges) {
@@ -32,8 +32,8 @@ public:
 
     // calculate depth with BFS
     int depth = -1;
-    queue<int>* working_que = new queue<int>; 
-    queue<int>* waiting_que = new queue<int>;
+    queue<int> *working_que = new queue<int>;
+    queue<int> *waiting_que = new queue<int>;
     waiting_que->push(1);
     while (!waiting_que->empty()) {
       ++depth; // initial value: -1 + 1 = 0
@@ -60,7 +60,7 @@ public:
   }
 
 private:
-  void quickErase(vector<int>& vec, int val) {
+  void quickErase(vector<int> &vec, int val) {
     auto it = find(vec.begin(), vec.end(), val);
     // Don't need to verify if val exists, it must exist
     *it = *(vec.rbegin());
@@ -76,20 +76,21 @@ private:
     // So, if n is odd, the answer is 2 ^ n / 2 = 2 ^ (n - 1)
 
     // If n is even, e.g. n = 8
-    // answer is 2 ^ 7, 
+    // answer is 2 ^ 7,
     // if there are odd number of ones in previous 7 steps, the last step is 2
     // if there are even number of ones in previous 7 steps, the last step is 1
 
     // In summary, the answer is 2 ^ (n - 1)
-    // However, n <= 10^5, meaning 2 ^ (n - 1) will easily go out of double's scope
-    
-    // Use Fast Modular Exponentiation algorithm 
+    // However, n <= 10^5, meaning 2 ^ (n - 1) will easily go out of double's
+    // scope
+
+    // Use Fast Modular Exponentiation algorithm
     // https://courses.cs.washington.edu/courses/cse311/21sp/resources/reference-modular-exponentiation.pdf
-    // if a = k1 * m + r1, b = k2 * m + r2 
+    // if a = k1 * m + r1, b = k2 * m + r2
     // (a * b) % m = (k1 * k2 * m^2 + (k1*r2 + k2*r1) * m + r1 * r2) % m
     // = r1 * r2 = (a % m) * (b % m)
-    // If n in binary is (1001), then 2 ^ n can be written as 2 ^ (1000) * 2 ^ (0001)
-    // So, (2 ^ n) % m = (2 ^ (0001) % m) * (2 ^ (1000) % m)
+    // If n in binary is (1001), then 2 ^ n can be written as 2 ^ (1000) * 2 ^
+    // (0001) So, (2 ^ n) % m = (2 ^ (0001) % m) * (2 ^ (1000) % m)
 
     --n; // n = n-1
     long long result = 1;
@@ -106,31 +107,30 @@ private:
   }
 };
 
-
 struct NodeInfo {
-  int depth; // we can delete this if we use two queues
-  vector<int> neighbors; // parent or children
+  int depth;            // we can delete this if we use two queues
+  vector<int> children; // parent or children
 };
 
 class Solution0 {
 public:
-  int assignEdgeWeights(vector<vector<int>>& edges) {
+  int assignEdgeWeights(vector<vector<int>> &edges) {
     // Notice that the first edge could not be connected to root (1)
-    // and upper node could be the second element. 
+    // and upper node could be the second element.
     // e.g. [[4,3],[3,5],[2,1],[3,1]]
     // 1. find maximum depth
     // 2. calculate
-    
+
     // Use unordered_map to record the neighbors of each node
     unordered_map<int, NodeInfo> map;
     for (vector<int> edge : edges) {
       if (map.contains(edge[0])) {
-        map[edge[0]].neighbors.push_back(edge[1]);
+        map[edge[0]].children.push_back(edge[1]);
       } else {
         map.emplace(edge[0], NodeInfo{-1, {edge[1]}});
       }
       if (map.contains(edge[1])) {
-        map[edge[1]].neighbors.push_back(edge[0]);
+        map[edge[1]].children.push_back(edge[0]);
       } else {
         map.emplace(edge[1], NodeInfo{-1, {edge[0]}});
       }
@@ -144,12 +144,12 @@ public:
     while (!que.empty()) {
       int parent = que.front();
       que.pop();
-      for (int child : map[parent].neighbors) {
+      for (int child : map[parent].children) {
         que.push(child);
         map[child].depth = map[parent].depth + 1;
         max_depth = map[child].depth;
         // remove parent node from child
-        quickErase(map[child].neighbors, parent);
+        quickErase(map[child].children, parent);
       }
     }
 
@@ -158,7 +158,7 @@ public:
   }
 
 private:
-  void quickErase(vector<int>& vec, int val) {
+  void quickErase(vector<int> &vec, int val) {
     auto it = find(vec.begin(), vec.end(), val);
     // Don't need to verify if val exists, it must exist
     *it = *(vec.rbegin());
@@ -174,20 +174,21 @@ private:
     // So, if n is odd, the answer is 2 ^ n / 2 = 2 ^ (n - 1)
 
     // If n is even, e.g. n = 8
-    // answer is 2 ^ 7, 
+    // answer is 2 ^ 7,
     // if there are odd number of ones in previous 7 steps, the last step is 2
     // if there are even number of ones in previous 7 steps, the last step is 1
 
     // In summary, the answer is 2 ^ (n - 1)
-    // However, n <= 10^5, meaning 2 ^ (n - 1) will easily go out of double's scope
-    
-    // Use Fast Modular Exponentiation algorithm 
+    // However, n <= 10^5, meaning 2 ^ (n - 1) will easily go out of double's
+    // scope
+
+    // Use Fast Modular Exponentiation algorithm
     // https://courses.cs.washington.edu/courses/cse311/21sp/resources/reference-modular-exponentiation.pdf
-    // if a = k1 * m + r1, b = k2 * m + r2 
+    // if a = k1 * m + r1, b = k2 * m + r2
     // (a * b) % m = (k1 * k2 * m^2 + (k1*r2 + k2*r1) * m + r1 * r2) % m
     // = r1 * r2 = (a % m) * (b % m)
-    // If n in binary is (1001), then 2 ^ n can be written as 2 ^ (1000) * 2 ^ (0001)
-    // So, (2 ^ n) % m = (2 ^ (0001) % m) * (2 ^ (1000) % m)
+    // If n in binary is (1001), then 2 ^ n can be written as 2 ^ (1000) * 2 ^
+    // (0001) So, (2 ^ n) % m = (2 ^ (0001) % m) * (2 ^ (1000) % m)
 
     --n; // n = n-1
     long long result = 1;
@@ -206,6 +207,7 @@ private:
 
 int main() {
   Solution demo;
-  vector<vector<int>> vec {{1,2}, {2,3},{3,4},{4,5},{5,6},{6,7},{7,8}};
+  vector<vector<int>> vec{{1, 2}, {2, 3}, {3, 4}, {4, 5},
+                          {5, 6}, {6, 7}, {7, 8}};
   std::cout << demo.assignEdgeWeights(vec) << "\n";
 }
