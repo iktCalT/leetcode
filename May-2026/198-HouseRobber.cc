@@ -4,10 +4,10 @@ using namespace std;
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        // If we are examing nums[k] (k >= 2)
+        // If we are examining nums[k] (k >= 2)
         // I need to store 2 numbers
-        // maxium possible value for 0 to k-2 elements
-        // maxium possible value for 0 to k-1 elements
+        // maximum possible value for 0 to k-2 elements
+        // maximum possible value for 0 to k-1 elements
         // Let's call them rob_odd and rob_even
 
         int rob_even = 0;
@@ -18,7 +18,7 @@ public:
                 // odd
                 if (is_selected) { // i-1 is selected -> rob_even cannot add nums[i]
                     if (rob_even >= rob_odd + nums[i]) { 
-                        // including "=", to make sure is_selectd is fasle if possible
+                        // including "=", to make sure is_selected is false if possible
                         rob_odd = rob_even;
                         is_selected = false;
                     } else {
