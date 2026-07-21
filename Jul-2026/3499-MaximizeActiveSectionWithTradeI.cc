@@ -10,6 +10,15 @@ class Solution {
 public:
   int maxActiveSectionsAfterTrade(string s) {
     vector<int> segs; //segments, first and last of '1's segs
+    /* 
+      e.g. If s == "0", segs = {0} + {1} + {0} = {0, 1, 0}.
+      s == "1", segs = {1}
+      s == "10", segs = {1, 1} + {0} = {1, 1, 0}
+      s == "00111", segs = {0} + {2, 3} = {0, 2, 3}
+      s == "11000111111", segs = {2, 3, 6}
+      s == "0101010", segs = {0} + {1,1,1,1,1,1,1} + {0}
+     */
+
     if (s[0] == '0') segs.push_back(0); // add a empty seg
     int n = s.size();
 
