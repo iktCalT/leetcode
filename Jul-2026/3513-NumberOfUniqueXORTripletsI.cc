@@ -23,7 +23,9 @@ public:
     // So, as long as n >= 3, 0 must be a candidate
 
     // Can we get a number greater than n? Sure!
-    // e.g. 1 to 10 -> for 1 to 7, we can get 000 to 111
+    // e.g. 1 to 10 
+    // -> with 1 to 7, we can get 000 to 111 with 
+    // only 1 XOR (e.g. get 101 by 001 XOR 100)
     // and we have 1000 -> 1000 ^ (000 to 111) 
     // => we have 0000 to 1111
 
