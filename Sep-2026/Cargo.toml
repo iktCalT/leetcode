@@ -1,5 +1,5 @@
 [package]
-name = "leetcode-aug-2026"
+name = "leetcode-sep-2026"
 version = "0.1.0"
 edition = "2024"
 
@@ -10,3 +10,7 @@ path = "3875-ConstructUniformParityArrayI.rs"
 [[bin]]
 name = "p3876"
 path = "3876-ConstructUniformParityArrayII.rs"
+
+[[bin]]
+name = "p3903"
+path = "3903-SmallestStableIndexI.rs"
