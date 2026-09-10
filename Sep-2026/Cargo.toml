@@ -14,3 +14,7 @@ path = "3876-ConstructUniformParityArrayII.rs"
 [[bin]]
 name = "p3903"
 path = "3903-SmallestStableIndexI.rs"
+
+[[bin]]
+name = "p115"
+path = "115-DistinctSubsequences.rs"
