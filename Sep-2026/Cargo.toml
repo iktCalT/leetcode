@@ -18,3 +18,7 @@ path = "3903-SmallestStableIndexI.rs"
 [[bin]]
 name = "p115"
 path = "115-DistinctSubsequences.rs"
+
+[[bin]]
+name = "3483"
+path = "3483-Unique3DigitEvenNumbers.rs"
