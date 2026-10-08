@@ -1,0 +1,24 @@
+[package]
+name = "leetcode-sep-2026"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "p3875"
+path = "3875-ConstructUniformParityArrayI.rs"
+
+[[bin]]
+name = "p3876"
+path = "3876-ConstructUniformParityArrayII.rs"
+
+[[bin]]
+name = "p3903"
+path = "3903-SmallestStableIndexI.rs"
+
+[[bin]]
+name = "p115"
+path = "115-DistinctSubsequences.rs"
+
+[[bin]]
+name = "3483"
+path = "3483-Unique3DigitEvenNumbers.rs"
